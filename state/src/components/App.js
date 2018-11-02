@@ -43,7 +43,7 @@ export class App extends React.Component {
                         onChange={this.handleOnChange} 
                         // onChange={(event) => this.handleOnChange(event)} drug nacin
                     />
-                    <button type="submite">+ add todo</button>
+                    <button type="submit">+ add todo</button>
                 </form>
                 <List 
                 items={this.state.list}
