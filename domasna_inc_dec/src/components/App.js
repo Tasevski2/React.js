@@ -4,17 +4,15 @@ import { increment, decrement } from "../actions/IncDecAction";
 
 export class App extends React.Component {
 
-    componentDidMount() {
-        this.props.zgolemi();
-        this.props.namali();
-    }
+    
 
     render() {
+        console.log(this.props);
         return(
             <div>
-                <button onClick={zgolemi}>+1</button>
-                <span>{this.props.inc_dec.count}</span>
-                <button onClick={namali}>-1</button>
+                <button onClick={this.props.zgolemi.bind(this)}>+1</button>
+                <span>{this.props.inc_dec}</span>
+                <button onClick={this.props.namali.bind(this)}>-1</button>
             </div>
         )
     }
@@ -23,13 +21,12 @@ export class App extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        inc_dec: state.incDec.count
+        inc_dec: state.incDecReducer.count
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
-    console.log(this.props)
     return {
         zgolemi: () => {
             dispatch(increment());
