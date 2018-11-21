@@ -15,6 +15,15 @@ const addToDoReducer = (state = initialState, action) => {
                     ...state.to_do_list
                 ]
             }
+        case "REMOVE_TO_DO": 
+            return {
+                ...state,
+                to_do_list: [
+                    ...state.to_do_list.filter((todo) => {
+                        return todo !== action.payload
+                    })
+                ]
+            }
         default: return state
     }
 }

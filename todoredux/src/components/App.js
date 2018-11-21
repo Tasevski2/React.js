@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 
 import { ToDoField } from "./ToDoField";
 import { ToDoList } from "./ToDoList";
+import { fetchUsers} from "../actions/UserAction";
 
-
-import { addToDo } from "../actions/ToDoAction";
+import { addToDo, removeToDo } from "../actions/ToDoAction";
+import { Welcome } from "./Welcome";
 
 export class App extends React.Component {
 
@@ -17,8 +18,12 @@ export class App extends React.Component {
             to_do_list: []
         }
         this.handleChange = this.handleChange.bind(this);
+        this.addToDo = this.addToDo.bind(this);
     }
 
+    componentDidMount() {
+        this.props.zemiKorisnici();
+    }
     handleChange(event) {
         this.setState({
             to_do: event.target.value
@@ -26,17 +31,35 @@ export class App extends React.Component {
         })
     };
 
+    addToDo(to_do, event) {
+        event.preventDefault();
+        if(this.state.to_do !== "")
+        {
+            this.props.addToDo(to_do);
+            this.setState({
+            to_do: ""
+            });
+        }
+    }
+
     render() {
         return(
             <div>
                 <div className="centered-content">
+                    <Welcome 
+                    name="Viktor"
+                    age={23}
+                    />
                     <ToDoField 
                     handleChange={this.handleChange}
                     to_do={this.state.to_do}
-                    addToDo={(event) => this.props.addToDo(this.state.to_do, event)}
+                    addToDo={(event) => this.addToDo(this.state.to_do, event)}
                     />
                     <br/>
-                    <ToDoList to_do_list={this.props.to_do_list}/>
+                    <ToDoList 
+                    to_do_list={this.props.to_do_list}
+                    removeToDo={(to_do) => this.props.removeToDo(to_do)}
+                    />
                 </div>
             </div>
         )
@@ -53,13 +76,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addToDo: (to_do, event) => {
-            event.preventDefault();
+        addToDo: (to_do) => {
             dispatch(addToDo(to_do));
-        }
+        },
+        removeToDo: (to_do) => {
+            dispatch(removeToDo(to_do));
+        },
+        zemiKorisnici: () => {
+            dispatch(fetchUsers())
+        }   
     }
 }
 
 
 
 App = connect(mapStateToProps , mapDispatchToProps)(App);
+// http://builtin.co/pc-gaming-ergonomics/
